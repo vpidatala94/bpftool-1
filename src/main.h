@@ -145,6 +145,7 @@ int open_obj_pinned(const char *path, bool quiet);
 int open_obj_pinned_any(const char *path, enum bpf_obj_type exp_type);
 int mount_bpffs_for_pin(const char *name);
 int do_pin_any(int argc, char **argv, int (*get_fd_by_id)(int *, char ***));
+int do_unpin_any(int argc, char **argv, int (*get_fd)(int *, char ***));
 int do_pin_fd(int fd, const char *name);
 
 /* commands available in bootstrap mode */
