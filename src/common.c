@@ -280,6 +280,18 @@ out_free:
 	return err;
 }
 
+int do_unpin_fd(int fd, const char *name)
+{
+    int err;
+
+    /* Unpin the object by unlinking the file from bpffs */
+    err = unlink(name);
+    if (err)
+        p_err("can't unpin the object (%s): %s", name, strerror(errno));
+
+    return err;
+}
+
 int do_pin_fd(int fd, const char *name)
 {
 	int err;
@@ -293,6 +305,21 @@ int do_pin_fd(int fd, const char *name)
 		p_err("can't pin the object (%s): %s", name, strerror(errno));
 
 	return err;
+}
+
+int do_unpin_any(int argc, char **argv, int (*get_fd)(int *, char ***))
+{
+    int err;
+    int fd;
+
+    fd = get_fd(&argc, &argv);
+    if (fd < 0)
+        return fd;
+
+    err = do_unpin_fd(fd, *argv);
+
+    close(fd);
+    return err;
 }
 
 int do_pin_any(int argc, char **argv, int (*get_fd)(int *, char ***))
