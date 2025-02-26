@@ -1227,6 +1227,16 @@ exit_free:
 	return err;
 }
 
+static int do_unpin(int argc, char **argv)
+{
+    int err;
+
+    err = do_unpin_any(argc, argv, map_parse_fd);
+    if (!err && json_output)
+        jsonw_null(json_wtr);
+    return err;
+}
+
 static int do_pin(int argc, char **argv)
 {
 	int err;
@@ -1478,6 +1488,7 @@ static const struct cmd cmds[] = {
 	{ "getnext",	do_getnext },
 	{ "delete",	do_delete },
 	{ "pin",	do_pin },
+	{ "unpin", do_unpin},
 	{ "event_pipe",	do_event_pipe },
 	{ "create",	do_create },
 	{ "peek",	do_lookup },
