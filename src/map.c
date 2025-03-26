@@ -1227,6 +1227,18 @@ exit_free:
 	return err;
 }
 
+static int do_unpin(int argc, char **argv)
+{
+    int err;
+    if (argc != 1) { // Expect exactly one argument: the pinned file path
+        return BAD_ARG();
+    }
+    err = do_unpin_path(*argv);
+    if (!err && json_output)
+        jsonw_null(json_wtr);
+    return err;
+}
+
 static int do_pin(int argc, char **argv)
 {
 	int err;
@@ -1478,6 +1490,7 @@ static const struct cmd cmds[] = {
 	{ "getnext",	do_getnext },
 	{ "delete",	do_delete },
 	{ "pin",	do_pin },
+	{ "unpin", do_unpin},
 	{ "event_pipe",	do_event_pipe },
 	{ "create",	do_create },
 	{ "peek",	do_lookup },

@@ -280,6 +280,17 @@ out_free:
 	return err;
 }
 
+int do_unpin_path(const char *path)
+{
+    int err;
+
+	err = ebpf_object_unpin(path);
+	if (err)
+		p_err("can't unpin the object (%s): %s", path, strerror(errno));
+
+	return err;
+}
+
 int do_pin_fd(int fd, const char *name)
 {
 	int err;
